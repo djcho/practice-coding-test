@@ -26,6 +26,7 @@ def bfs(start, end):
     
     while queue:
         current = queue.popleft()
+        print(current, end="-")
         if current == end:
             return visited[end]
         for i in (current-1, current+1,current*2): #인접한 모든 노드(이동 거리)들 검사 후 넣음
