@@ -39,5 +39,3 @@ visited = [0] * (ARR_MAX+1)
 
 n, k = map(int, input().split())
 print(bfs(n, k))
-
-

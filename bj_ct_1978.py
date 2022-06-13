@@ -41,4 +41,5 @@ print(len(set(number_arr) & set(prime_number_arr)))
 # 5*4
 24/53
 11
+
  
