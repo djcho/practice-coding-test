@@ -12,7 +12,6 @@ for i in change_coin:
 
 print(count)
 
-
 # while(change > 0):
 #     if change%500 == 0:
 #         count += change//500
