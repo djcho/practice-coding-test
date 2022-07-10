@@ -4,9 +4,9 @@ N = int(input())
 MAP = [list(map(int, input().split())) for _ in range(N)]
 visited = [([False] * N) for _ in range(N)]
 
-def bfs(x,y):
+def bfs():
     queue = deque()
-    queue.append([x,y])
+    queue.append([0,0])
 
     while(queue):
         current = queue.popleft()
@@ -30,4 +30,4 @@ def bfs(x,y):
     else:
         print("Hing")
 
-bfs(0,0)
+bfs()
