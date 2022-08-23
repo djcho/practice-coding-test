@@ -1,36 +1,64 @@
-﻿// codingtest.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
+﻿//Attribute Parser in C++ - Hacker Rank Solution
 #include <cmath>
 #include <cstdio>
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include <string>
-#include <map>
+#include <bits/stdc++.h>
 using namespace std;
 
-class TagNode
+class Tag
 {
 private:
-    std::vector<std::string> attributes;
-    TagNode* childNode;
+    std::string tagName;
+    std::map<std::string, std::string> attributes;
+    std::vector<Tag*> childTags;
+    Tag* parentTag;
 
 public:
-    TagNode(std::vector<std::string> attributes,TagNode* childNode)
-        :attributes(attributes), childNode(childNode)
+
+    void setParent(Tag* parentTag)
+    {
+        this->parentTag = parentTag;
+    }
+
+    Tag* getParentTag()
+    {
+        return this->parentTag;
+    }
+
+    std::string getName()
+    {
+        return this->tagName;
+    }
+
+    Tag(std::string tagName, std::map<std::string, std::string> attributes)
+        :tagName(tagName), attributes(attributes)
     {
     }
 
-    TagNode* getChildNode() { return this->childNode; }
-    std::vector<std::string>& getAttributes() { return this->attributes; }
-    
+    std::map<std::string, std::string>& getAttributes() { return this->attributes; }
+    void addChildTag(Tag* tag)
+    {
+        childTags.push_back(tag);
+    }
+
+    Tag* getChildByTagName(const std::string& tagName)
+    {
+        std::vector<Tag*>::iterator pos = std::find_if(this->childTags.begin(), this->childTags.end(), [&](Tag* tag) {
+            return tag->getName() == tagName; });
+
+        if (pos != this->childTags.end())
+            return *pos;
+        return nullptr;
+    }
 };
 
 class StringUtil
 {
 public:
 
-    std::string replace(const std::string& src, const std::string& from, const std::string& to) {
+    static std::string replace(const std::string& src, const std::string& from, const std::string& to) {
 
         std::string replaced = src;
         size_t start_pos = 0;
@@ -41,7 +69,7 @@ public:
         return replaced;
     }
 
-    std::vector<std::string> splitString(const std::string& src, const std::string& delimiter)
+    static std::vector<std::string> splitString(const std::string& src, const std::string& delimiter)
     {
         std::vector<std::string> vec;
         std::string tmp_src = src;
@@ -49,13 +77,11 @@ public:
         while ((pos = tmp_src.find(delimiter)) != std::string::npos)
         {
             std::string splitStr = tmp_src.substr(0, pos);
-            std::cout << splitStr << std::endl;
             vec.push_back(splitStr);
 
             tmp_src.erase(0, pos + delimiter.length());
         }
         vec.push_back(tmp_src);
-        std::cout << tmp_src << std::endl;
         return vec;
     }
 };
@@ -64,7 +90,7 @@ class HrmlParser
 {
 private:
     std::vector<std::string> sourceCode;
-    std::map<std::string, TagNode*> tagMap;
+    std::vector<Tag*> tags;
 
 public:
     HrmlParser(std::vector<std::string> sourceCode) : sourceCode(sourceCode) {}
@@ -72,113 +98,105 @@ public:
 
     std::string query(const std::string queryString)
     {
-        std::string src = queryString;
-        std::size_t pos = src.find_first_of(".~");
-        
-        StringUtil su;
+        std::vector<std::string> splitedQueryString = StringUtil::splitString(queryString, "~");
+        std::vector<std::string> splitedTagNames = StringUtil::splitString(splitedQueryString[0], ".");
+        std::string attributeName = splitedQueryString[1];
 
-        TagNode* tagNode = nullptr;
-        while (pos != std::string::npos)
+        Tag* currentTag = nullptr;
+        std::vector<Tag*>::iterator tagPos = std::find_if(this->tags.begin(), this->tags.end(), [&](Tag* tag)
+            {
+                return tag->getName() == splitedTagNames[0];
+            });
+
+        if(tagPos == this->tags.end())
+            return std::string("Not Found!");
+
+        currentTag = *tagPos;
+
+        if (splitedTagNames.size() >= 2)
         {
-            switch (src[pos])
+            for (std::vector<std::string>::iterator iter = splitedTagNames.begin() + 1; iter != splitedTagNames.end(); iter++)
             {
-            case '.': 
-            {
-                std::string tagName = src.substr(0, pos);
-                if (!tagNode)
-                {
-                    std::map<std::string, TagNode*>::iterator iter = this->tagMap.find(tagName);
-                    if (iter != this->tagMap.end())
-                        tagNode = iter->second;
-                }
-                else
-                    tagNode = tagNode->getChildNode();
-                src.erase(0, pos + 1);
-                break;
-            }
-            case '~':                
-                std::string query = src.substr(0, pos);
-                std::vector<std::string> tagKeyValue = su.splitString(query, "~");
-                std::string tagName = tagKeyValue[0];
-                if (!tagNode)
-                {
-                    std::map<std::string, TagNode*>::iterator iter = this->tagMap.find(tagName);
-                    if (iter != this->tagMap.end())
-                        tagNode = iter->second;
-                }
-
-                std::string attributeName = tagKeyValue[1];
-                for (auto& attributeKeyValue : tagNode->getAttributes())
-                {
-                    std::vector<std::string> splitedVec = su.splitString(attributeKeyValue, " = ");
-                    if(splitedVec[0] == attributeName)
-                    {
-                        return splitedVec[1];
-                    }
-                }
-                return std::string("Not Found!");
+                currentTag = currentTag->getChildByTagName(*iter);
+                if(!currentTag)
+                    return std::string("Not Found!");
             }
         }
-        
 
-
-        return std::string();
+        std::map<std::string, std::string> attributes = currentTag->getAttributes();
+        std::map<std::string, std::string>::iterator pos = attributes.find(attributeName);
+        if (pos == attributes.end())
+            return std::string("Not Found!");
+        else
+            return pos->second;
     }
 
 
-    std::string getTagName(const std::string& tag)
+    std::string getTagName(const std::string& tagString)
     {
         //<tag1 value = "HelloWorld">
-        std::size_t found = tag.find('<');
-        std::string tagName = tag.substr(found + 1, tag.find(' ', found) - 1);
-        return tagName;
+        std::string temp = tagString;
+        temp.erase(std::remove(temp.begin(), temp.end(), '<'), temp.end());
+        temp.erase(std::remove(temp.begin(), temp.end(), '>'), temp.end());
+        size_t found = temp.find(' ');
+        if (found == std::string::npos)
+            return temp;
+
+        return  temp.substr(0, tagString.find(' ') - 1);;
     }
 
-     std::vector<std::string> getAttributeNames(const std::string& tag)
+    std::map<std::string, std::string> getAttributes(const std::string& tag)
     {
-        //<tag3 another="another" final = "final">
+        //<tag3 another = "another" final = "final">
+        std::map<std::string, std::string> attributes;
+
         std::size_t found = tag.find(' ');
+        if (found == std::string::npos)
+           return attributes;
+
         std::string attributeStrings = tag.substr(found + 1, tag.find_last_of('>') - (found + 1));
         
-        StringUtil su;
-
-        std::vector<std::string> splitedAttributes = su.splitString(attributeStrings, "\" ");
+        std::vector<std::string> splitedAttributes = StringUtil::splitString(attributeStrings, "\" ");
         
-        for(auto& splitedAttribute : splitedAttributes)
-            splitedAttribute.erase(std::remove(splitedAttribute.begin(), splitedAttribute.end(), '\"'), splitedAttribute.end());
-
-        return splitedAttributes;
-    }
-
-    void parse(TagNode* parentTagNode, std::vector<std::string>::iterator iter)
-    {
-        if (iter == this->sourceCode.end())
-            return;
-
-        std::string code = *iter;
-
-        if (!this->isCloser(code))
+        
+        for (auto& splitedAttribute : splitedAttributes)
         {
-            std::string tagName = getTagName(code);
-            std::vector<std::string> attributes = getAttributeNames(code);
-
-            TagNode* tagNode = new TagNode(attributes, parentTagNode);
-            std::pair<std::string, TagNode*> tag(tagName, tagNode);
-            this->tagMap.insert(tag);
+            splitedAttribute.erase(std::remove(splitedAttribute.begin(), splitedAttribute.end(), '\"'), splitedAttribute.end());
+            std::vector<std::string> attKeyValue = StringUtil::splitString(splitedAttribute, " = ");
+            attributes.insert(std::pair<std::string, std::string>(attKeyValue[0], attKeyValue[1]));
         }
 
-        iter++;
-        parse(nullptr, iter);
+        return attributes;
     }
 
-    void parse()
-    {
-        TagNode* parentTagNode = nullptr;
-        std::vector<std::string>::iterator iter = this->sourceCode.begin();
+     Tag* createTag(const std::string& tagString)
+     {
+         return new Tag(getTagName(tagString), getAttributes(tagString));
+     }
 
-        parse(nullptr, iter);
-    }
+     void parse()
+     {
+         Tag* currentTag = nullptr;
+         for (auto& tagString : this->sourceCode)
+         {
+             if (isCloser(tagString))
+             {
+                 currentTag = currentTag->getParentTag();
+                 continue;
+             }
 
+             Tag *newTag = createTag(tagString);
+             if (currentTag)
+                 currentTag->addChildTag(newTag);  
+
+             newTag->setParent(currentTag);
+             currentTag = newTag;
+
+             if(!currentTag->getParentTag())
+                tags.push_back(newTag);
+         }
+     }
+    
     bool isCloser(const std::string& tag)
     {
         if (tag.empty())
@@ -225,4 +243,3 @@ int main() {
 
     return 0;
 }
-
