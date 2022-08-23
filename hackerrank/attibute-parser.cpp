@@ -23,7 +23,7 @@ public:
 
     TagNode* getChildNode() { return this->childNode; }
     std::vector<std::string>& getAttributes() { return this->attributes; }
-    
+  
 };
 
 class StringUtil
