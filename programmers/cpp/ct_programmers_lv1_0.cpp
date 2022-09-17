@@ -145,3 +145,9 @@ int solution12(int num) {
 
     return roop_count;
 }
+
+int main(){
+    cout << "11111231231" << endl;
+    cout << solution10(244) << endl;
+    return 0;
+}
