@@ -223,6 +223,76 @@ string solution19(int n) {
     return answer;
 }
 
+#include <numeric>
+//Lv.1 없는 숫자 더하기
+int solution20(vector<int> numbers) {
+    vector<int> table = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    vector<int> diff;
+
+    sort(numbers.begin(), numbers.end());
+    set_difference(table.begin(), table.end(), numbers.begin(), numbers.end(), inserter(diff, diff.begin()));
+    return accumulate(diff.begin(), diff.end(), 0);
+}
+
+//Lv.1 가운데 글자 가져오기
+string solution21(string s) {
+    return s.size()%2 ? s.substr(s.length()/2, 1) : s.substr(s.length()/2-1, 2) ;
+}
+
+//Lv.1 내적
+int solution22(vector<int> a, vector<int> b) {
+    int answer = 0;
+
+    for(int i = 0; i < a.size(); i++){
+        answer += a[i]*b[i];
+    }
+
+    return answer;
+}
+
+//Lv.1 문자열 내림차순으로 배치하기
+string solution23(string s) {
+    sort(s.begin(), s.end(), std::greater<int>());
+    return s;
+}
+
+//Lv.1 문자열 다루기 기본
+bool solution24(string s) {
+    if(s.length() != 4 && s.length() != 6)
+        return false;
+    return (find_if(s.begin(), s.end(), [](const char& c){return (c < '0' || c > '9');}) == s.end());
+}
+
+
+//Lv.1 약수의 개수와 덧셈
+int solution25(int left, int right) {
+    int answer = 0;
+    int mcount = 0;
+    for(int i = left; i <= right; i++){
+        mcount = 0;
+        for(int j = 1; j <= i; j++){
+            if(i%j == 0) mcount++;            
+        }
+        answer = mcount%2 ? answer - i : answer + i;
+    }
+
+    return answer;
+}
+
+//Lv.1 행렬의 덧셈
+vector<vector<int>> solution26(vector<vector<int>> arr1, vector<vector<int>> arr2) {
+    vector<vector<int>> answer;
+    for(int i = 0; i < arr1.size(); i++){
+        vector<int> temp;
+        for(int j = 0; j < arr1[i].size(); j++){
+            temp.push_back(arr1[i][j] + arr2[i][j]);
+        }
+        answer.push_back(temp);
+    }
+    return answer;
+}
+
 int main(){
+    solution26({{1},{2}}, {{3}, {4}});
     return 0;
 }
