@@ -146,8 +146,83 @@ int solution12(int num) {
     return roop_count;
 }
 
+#include <cmath>
+
+//Lv.1 두 정수 사이의 합
+long long solution13(int a, int b) {
+    long long sum = 0;
+    for(int i = std::min(a, b); i <= std::max(a, b); i++)
+        sum += i;
+    return sum;
+}
+
+//Lv.1 서울에서 김서방 찾기
+string solution14(vector<string> seoul) {
+    string answer = "김서방은 ";
+    vector<string>::iterator iter = std::find_if(seoul.begin(), seoul.end(), [](std::string str){return str == "Kim";});
+    size_t index = std::distance(seoul.begin(), iter);
+
+    answer.append(std::to_string(index));
+    answer.append("에 있다.");
+
+    return answer;
+}
+
+//Lv.1 핸드폰 번호 가리기
+string solution15(string phone_number) {
+    for(string::iterator iter = phone_number.begin(); iter < phone_number.end() - 4; iter++){
+        phone_number.replace(iter, iter+1, "*");
+    }
+    
+    return phone_number;
+}
+
+//Lv.1 제일 작은 수 구하기
+vector<int> solution16(vector<int> arr) {
+    if(arr.size() <= 1)
+        return {-1};
+        
+    arr.erase(std::min_element(arr.begin(), arr.end()));
+    return arr;
+}
+
+//Lv.1 나누어 떨어지는 숫자 배열
+vector<int> solution17(vector<int> arr, int divisor) {
+    vector<int> answer;
+    for(auto& i : arr){
+        if(i%divisor == 0){
+            answer.push_back(i);
+        }        
+    }
+    if(answer.empty())
+        return {-1};
+
+    std::sort(answer.begin(), answer.end());
+    return answer;
+}
+
+//Lv.1 음양 더하기
+int solution18(vector<int> absolutes, vector<bool> signs) {
+    int answer = 0;
+
+    for(int i = 0; i < absolutes.size(); i++){
+        signs[i] ? answer += absolutes[i] : answer -= absolutes[i];
+    }
+
+    return answer;
+}
+
+//Lv.1 수박수박수박수박수박수?
+string solution19(int n) {
+    string answer = "";
+    string str;
+    for(int i = 1; i <= n; i++){
+        str = i%2 ? "수" : "박";
+        answer.append(str);
+    }
+    return answer;
+}
+
 int main(){
-    cout << "11111231231" << endl;
-    cout << solution10(244) << endl;
     return 0;
 }
