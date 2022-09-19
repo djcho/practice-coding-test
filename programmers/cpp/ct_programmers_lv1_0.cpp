@@ -292,7 +292,93 @@ vector<vector<int>> solution26(vector<vector<int>> arr1, vector<vector<int>> arr
     return answer;
 }
 
+//Lv1 부족한 금액 계산하기
+long long solution27(int price, int money, int count)
+{
+    long long total = 0;
+    for(int i =1; i <= count; i++){
+        total += (price * i);
+    }
+
+    return total < money ? 0: total - money;
+}
+
+//Lv1 직사각형 별찍기
+int solution28(void) {
+    int a;
+    int b;
+    cin >> a >> b;
+    
+    for(int i = 0; i < b; i++){
+        for(int j = 0; j < a; j++)
+            cout<< "*";
+        cout << endl;
+    }
+    return 0;
+}
+
+//Lv.1 최대공약수와 최소공배수
+vector<int> solution29(int n, int m){
+    vector<int> cf;
+    for(int i = 1; i <= n && i <=m; i++){
+        if(n%i == 0 && m%i == 0){
+            cf.push_back(i);
+        }
+    }
+
+    int g = *(cf.end() -1);
+    int l = g * n/g * m/g;
+
+
+    return {g,l};
+}
+
+//Lv.1 같은 숫자는 싫어
+vector<int> solution30(vector<int> arr) 
+{
+    vector<int> answer = {arr[0]};
+    for(auto& i : arr){
+        if(*(answer.end() - 1) != i){
+            answer.push_back(i);
+        }
+    }
+    return answer;
+}
+
+//Lv.1 이상한 문자 만들기
+string solution31(string s) {
+    int internal_index = 1;
+    for(int i = 0; i < s.length(); i++){
+        if(s[i] == ' '){
+            internal_index = 1;
+            continue;
+        }
+        s[i] = internal_index%2 ? toupper(s[i]) : tolower(s[i]);
+        internal_index++;
+    }
+    return s;
+}
+
+//Lv.1 3진법 뒤집기
+int solution(int n) {
+    vector<int> vec;
+    while(n > 2){
+        vec.push_back(n%3);
+        n /= 3;
+    }
+    vec.push_back(n);
+
+    int sum = 0;
+    int vec_size = vec.size() - 1;
+    for(int i = 0; i < vec.size(); i++){
+        sum += vec[i] * pow(3, vec_size);
+        vec_size--;
+    }
+    
+    return sum;
+}
+
 int main(){
-    solution26({{1},{2}}, {{3}, {4}});
+    solution(3);
     return 0;
 }
