@@ -360,7 +360,7 @@ string solution31(string s) {
 }
 
 //Lv.1 3진법 뒤집기
-int solution(int n) {
+int solution32(int n) {
     vector<int> vec;
     while(n > 2){
         vec.push_back(n%3);
@@ -378,7 +378,21 @@ int solution(int n) {
     return sum;
 }
 
+//Lv.1 예산
+int solution33(vector<int> d, int budget) {
+    int sum = 0;
+    sort(d.begin(), d.end());
+
+    int cnt = 0;
+    for(int i = 0; i < d.size(); i++){
+        sum += d[i];
+        if(sum <= budget)
+            cnt++;
+    }
+
+    return cnt;
+}
+
 int main(){
-    solution(3);
     return 0;
 }
