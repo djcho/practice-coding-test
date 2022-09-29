@@ -393,6 +393,62 @@ int solution33(vector<int> d, int budget) {
     return cnt;
 }
 
+//Lv.1 시저 암호
+string solution(string s, int n) {
+    bool lower = false;
+    for(int i = 0; i <= s.length(); i++){
+        if(s[i] == ' ')
+            continue;
+        
+        if('A' <= s[i] && s[i] <= 'Z' && s[i] + n > 'Z' || 
+        'a' <= s[i] && s[i] <= 'z' && s[i] + n > 'z'){
+            s[i] -= 26;
+        }
+
+        s[i] += n;
+    }
+    return s;
+}
+
+int foo(int a){
+    vector<int> vec;
+    int n = a;
+    for(int i = 0; i < 4; i++){
+        vec.insert(vec.begin(), n%2); 
+        if(n != 0)
+            n/=2;
+    }
+
+    for(auto& num : vec){
+        cout << num << endl;
+    }
+
+    int v = 2;
+}
+
+//Lv.1 [1차] 비밀지도
+vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
+    vector<string> answer;
+    int temp = 0;
+    for(int i = 0; i < arr1.size(); i++){
+        temp = arr1[i]|arr2[i];
+        
+        string map;
+        for(int j = 0; j < n; j++){
+            map.insert(map.begin(), (temp%2 ? '#' : ' ')); 
+            if(temp != 0)
+                temp/=2;
+        }
+
+        answer.push_back(map);
+    }
+
+    return answer;
+}
+
+
 int main(){
+    vector<string> a;
+    a = solution(5, {9, 20, 28, 18, 11}, {30, 1, 21, 17, 28});
     return 0;
 }
