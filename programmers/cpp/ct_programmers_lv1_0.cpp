@@ -448,7 +448,7 @@ int solution36(vector<vector<int>> sizes) {
     return wmax * hmax;
 }
 
-vector<string> solution(vector<string> strings, int n) {
+vector<string> solution37(vector<string> strings, int n) {
     sort(strings.begin(), strings.end(), [&](const string &s1, const string &s2) {
         if(s1.size() < n || s1.size() <  n)
             return false;
@@ -462,15 +462,16 @@ vector<string> solution(vector<string> strings, int n) {
     return strings;
 }
 
-void printVec(vector<string> vec){
-    for(auto& s : vec){
-        cout << s + " - ";
+vector<int> solution38(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer;
+    for(auto& vec : commands){
+        vector<int> temp(array.begin() + vec[0]-1, array.begin() + vec[1]);
+        sort(temp.begin(), temp.end());
+        answer.push_back(temp[vec[2]-1]);
     }
-    cout<<endl;
+    return answer;
 }
 
 int main(){
-    printVec(solution({"sun", "bed", "car"}, 1));
-    printVec(solution({"abcd", "abce", "cdx"}, 2));
     return 0;
 }
