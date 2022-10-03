@@ -472,6 +472,34 @@ vector<int> solution38(vector<int> array, vector<vector<int>> commands) {
     return answer;
 }
 
+#include <map>
+
+int solution(string s) {
+    map<string, string> table = {
+        {"zero", "0"}, {"one", "1"}, {"two", "2"}, {"three", "3"}, {"four", "4"},
+        {"five", "5"}, {"six", "6"}, {"seven", "7"}, {"eight", "8"}, {"nine", "9"}
+    };
+
+    string::iterator siter = s.begin();
+    while(siter != s.end()){
+        if(isdigit(*siter)){
+            siter++;
+            continue;
+        }
+        
+        string num = s.substr(siter - s.begin(), 3);
+        auto iter = find_if(table.begin(), table.end(), [&num](pair<string, string> item){
+            return (item.first.compare(0, 3, num) == 0);
+        });
+
+        s.replace(siter, siter + iter->first.length(), iter->second);
+        siter++;
+    }
+
+    return stoi(s);
+}
+
 int main(){
+    solution("one4seveneight");
     return 0;
 }
