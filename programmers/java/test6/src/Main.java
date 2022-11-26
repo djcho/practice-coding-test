@@ -9,7 +9,7 @@ public class Main {
 
         for(int i = 0; i < number.length(); i++){
             for(int j = i + 1; j < number.length(); j++){
-                Character.getNumericValue(number.charAt(i));    
+                Character.getNumericValue(number.charAt(i));
             }
 
         }
