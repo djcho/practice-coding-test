@@ -53,4 +53,33 @@ public class Main {
         }
         return count >= 2 ? -1 : answer;
     }
+
+    public int solution(int n) {
+        int answer = n/7;
+        return n%7 == 0 ? answer : answer +1;
+    }
+
+    public int solution2(int n) {
+        int p = 6;
+        int answer = 1;
+        while(p%n != 0){
+            p+=6;
+            answer++;
+        }
+        return answer;
+    }
+
+    public int solution3(int price) {
+        if(price >= 500000)
+            return (int)(price * 0.8);
+        else if(price >= 300000){
+            return (int)(price * 0.9);
+        }
+        else if(price >= 100000){
+            return (int)(price * 0.95);
+        }
+        else{
+            return price;
+        }
+    }
 }
