@@ -1,19 +1,8 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
-    public static void main(String[] args) {
-        int[] answer = solution(1,2,3,4);
-
-        answer = solution(9,2,1,3);
-
-        int[] a = {0,999,0,2,2,1,};
-        System.out.println(solution(a));
-
-        List<Integer> a1 = new ArrayList<>();
-        int[] aaa = a1.stream().mapToInt(i->i).toArray();
-    }
     public static int[] solution(int denum1, int num1, int denum2, int num2) {
         int[] answer = {0, 0};
 
@@ -81,5 +70,106 @@ public class Main {
         else{
             return price;
         }
+    }
+
+    public static double solution4(int n) {
+        return Math.sqrt(n);
+    }
+
+    public int solution5(String[] s1, String[] s2) {
+        int answer = 0;
+
+        if(s1.length < s2.length){
+            for(String s : s1){
+                answer += Arrays.stream(s2).anyMatch(s::equals) ? 1 : 0;
+            }
+        }
+        else {
+            for(String s : s2){
+                answer += Arrays.stream(s1).anyMatch(s::equals) ? 1 : 0;
+            }
+        }
+
+        return answer;
+    }
+
+    public static int solution6(String my_string) {
+        int answer = 0;
+        for(int i = 0; i < my_string.length(); i++){
+            if(Character.isDigit(my_string.charAt(i))) answer += my_string.charAt(i) - '0';
+        }
+        return answer;
+    }
+
+    public static int solution7(int n, int t) {
+        if(t == 0)
+            return n;
+        return solution7(n*2, --t);
+    }
+
+    public static String solution8(String my_string) {
+        String answer = "";
+
+        for(int i = 0; i < my_string.length(); i++){
+            if(Character.isLowerCase(my_string.charAt(i))){
+                answer += String.valueOf(my_string.charAt(i)).toUpperCase();
+            }
+            else if(Character.isUpperCase(my_string.charAt(i))){
+                answer += String.valueOf(my_string.charAt(i)).toLowerCase();
+            }
+            else{
+                answer += my_string.charAt(i);
+            }
+        }
+        return answer;
+    }
+
+    public static int solution9(int[] box, int n) {
+        return box[0]/n * box[1]/n * box[2]/n;
+    }
+
+    public static String solution10(String cipher, int code) {
+        String answer = "";
+        for(int i = code; i < cipher.length(); i+=code)
+            answer += cipher.charAt(i-1);
+        return answer;
+    }
+
+    public static int[] solution11(int n) {
+        Set<Integer> answer = new HashSet<>();
+        for(int i = 1; i <= Math.sqrt(n); i++){
+            if(n%i == 0){
+                answer.add(i);
+                answer.add(n/i);
+            }
+        }
+        return answer.stream().sorted().mapToInt(i->i).toArray();
+    }
+
+    public static int[] solution12(int[] numbers, String direction) {
+        int[] answer = new int[numbers.length];
+        if(direction.equals("right")){
+            System.arraycopy(numbers, 0, answer, 1, numbers.length-1);
+            answer[0] = numbers[numbers.length-1];
+        }else {
+            System.arraycopy(numbers, 1, answer, 0, numbers.length-1);
+            answer[numbers.length-1] = numbers[0];
+        }
+        return answer;
+    }
+
+    public static String solution13(int age) {
+        String answer = "";
+        for(char ch : String.valueOf(age).toCharArray()){
+            answer += (char)(ch + '1');
+        }
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        int[] test = {1, 2, 3};
+
+        solution13(23);
+        System.out.println(Arrays.toString(test));
     }
 }
