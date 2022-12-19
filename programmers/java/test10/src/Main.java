@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -181,11 +182,42 @@ public class Main {
 
         return answer;
     }
+    public static String solution15(String letter) {
+        String answer = "";
+        String[] morse = {".-","-...","-.-.","-..",".",
+                "..-.","--.","....","..",".---",
+                "-.-",".-..","--","-.","---",
+                ".--.","--.-",".-.","...","-",
+                "..-","...-",".--","-..-","-.--","--.."};
+
+        String[] ss = letter.split(" ");
+        for(String s : ss){
+            answer += (char)((int)'a' + Arrays.asList(morse).indexOf(s));
+        }
+
+        return answer;
+    }
+
+    public static int solution16(int balls, int share) {
+        return (factorial(balls).divide(factorial(balls - share).multiply(factorial(share)))).intValue();
+    }
+
+    public static BigInteger factorial(int n){
+        if(n <= 1)
+            return new BigInteger(Integer.toString(n));
+
+        BigInteger ret =  factorial(n-1).multiply(new BigInteger(Integer.toString(n)));
+        return ret;
+    }
 
     public static void main(String[] args) {
         int[] test = {3, 76, 24};
 
-        solution14(test);
+        //solution14(test);
+        //solution15(".... . .-.. .-.. ---");
+        //System.out.println(solution16(3,2));
+        System.out.println(solution16(2,2));
+        //System.out.println(solution16(5,3));
         System.out.println(Arrays.toString(test));
     }
 }
