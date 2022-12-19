@@ -166,10 +166,26 @@ public class Main {
         return answer;
     }
 
-    public static void main(String[] args) {
-        int[] test = {1, 2, 3};
+    public static int[] solution14(int[] emergency) {
+        int[] answer = new int[emergency.length];
 
-        solution13(23);
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < emergency.length; i++){
+            map.put(emergency[i], i);
+        }
+
+        emergency = Arrays.stream(emergency).boxed().sorted(Collections.reverseOrder()).mapToInt(Integer::intValue).toArray();
+        for(int i = 0; i < emergency.length; i++){
+            answer[map.get(emergency[i])] = i + 1;
+        }
+
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        int[] test = {3, 76, 24};
+
+        solution14(test);
         System.out.println(Arrays.toString(test));
     }
 }
