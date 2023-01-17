@@ -210,14 +210,143 @@ public class Main {
         return ret;
     }
 
-    public static void main(String[] args) {
-        int[] test = {3, 76, 24};
+    public static int[][] solution17(int[] num_list, int n) {
+        int[][] answer = new int[num_list.length/n][n];
+        int index = 0;
+        for(int i = 0; i < num_list.length; i+=n){
+            for(int j = 0; j < n; j++)
+                answer[index][j] = num_list[i+j];
+            index++;
+        }
+        return answer;
+    }
 
-        //solution14(test);
-        //solution15(".... . .-.. .-.. ---");
-        //System.out.println(solution16(3,2));
-        System.out.println(solution16(2,2));
-        //System.out.println(solution16(5,3));
-        System.out.println(Arrays.toString(test));
+    public static int solution18(int n) {
+        int i = 1;
+        while(true){
+            if(n / i <= i)
+                break;
+            n/=i;
+            i++;
+        }
+        return i;
+    }
+
+    public static int solution19(int[] citations) {
+        int answer = 0;
+        for(int i = 1; i <= citations.length; i++){
+            int count = 0;
+            for(int j = 0; j < citations.length; j++){
+                if(citations[j] > j)
+                    count ++;
+
+                if(count > i){
+                    answer = count;
+                    break;
+                }
+            }
+        }
+        return answer;
+    }
+
+    public static String solution20(int n, int t, int m, int p) {
+        StringBuilder answer = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i < 1000 ; i++){
+            sb.append(Integer.toString(i, n));
+        }
+
+        int idx = p-1;
+        for(int i = 0; i < t; i ++){
+            if(idx > sb.length())
+                break;
+            answer.append(sb.charAt(idx));
+            idx += m;
+            //System.out.println(idx);
+        }
+        System.out.println(answer);
+        return answer.toString().toUpperCase();
+    }
+
+    public static int solution21(int[] priorities, int location) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        queue.add(2);
+        queue.add(1);
+        queue.add(4);
+        queue.add(0);
+        int count = 0;
+        for(int i = 0; i < priorities.length; i++){
+            for(int j = i + 1; j < priorities.length - i; j++){
+                if(priorities[i] < priorities[j]){
+                    count++;
+                    break;
+                }
+            }
+        }
+
+        int currentLocation = location - count;
+        return currentLocation < 0 ? currentLocation + priorities.length + 1 : currentLocation + 1;
+    }
+
+    public static int solution22(int n) {
+        int answer = 0;
+
+        for(int i = 1; i <= n; i++){
+            int sum = 0;
+            for(int j = i; j <= n; j++){
+                sum += j;
+                if(sum > n)
+                    break;
+                else if(sum == n) {
+                    answer++;
+                    break;
+                }
+            }
+        }
+        return answer;
+    }
+
+    public static boolean isPrimeNumber(long number){
+        for(int i = 2; i <= Math.sqrt(number); i+=2)
+            if(number % i == 0)
+                return false;
+        return true;
+    }
+
+
+    public static int solution23(int n, int k) {
+        int answer = 0;
+        String strNumber = Integer.toString(n, k);
+        String[] ss = strNumber.split("0");
+        for (String s : ss) {
+            if(s.isEmpty() || s.equals("1"))
+                continue;
+
+            if (isPrimeNumber(Long.parseLong(s)))
+                answer++;
+        }
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        int[] test = {2,1,3,2};
+        int[] test2 = {1,1,9,1,1,1,};
+        //int[] test2 = {3,0,6,1,5, 10, 2, 7, 2};
+        System.out.println(solution23(437674, 3));
+        System.out.println(solution23(110011, 10));
+        //int[] test = {1, 2, 3, 4, 5, 6, 7, 8};
+////
+////        solution18(5);
+////        solution18(7);
+////        solution18(2147483647);
+//
+//        //solution14(test);
+//        //solution15(".... . .-.. .-.. ---");
+//        //System.out.println(solution16(3,2));
+//        solution17(test, 2);
+//        System.out.println(solution16(2,2));
+//        //System.out.println(solution16(5,3));
+//        System.out.println(Arrays.toString(test));
     }
 }
