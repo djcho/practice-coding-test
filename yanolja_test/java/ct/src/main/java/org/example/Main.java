@@ -80,30 +80,58 @@ public class Main {
     }
 
     public static int solution3(String my_string) {
-        int answer = 0;
-        my_string = my_string.replace(" + ", "@");
-        my_string = my_string.replace(" - ", "~");
-        String [] plusString = my_string.split("@");
-        for(String ps : plusString) {
-            if (ps.isEmpty())
-                continue;
 
-            if (ps.contains("~")) {
-                String[] minusString = ps.split("~");
-                for (String ms : minusString) {
-                    if (ms.isEmpty())
-                        continue;
-                    answer -= Integer.parseInt(ms);
-                }
+
+        String[] ss = my_string.split(" ");
+        int answer = Integer.parseInt(ss[0]);
+        for(int i = 0; i < ss.length; i++){
+            if(ss[i].equals("+")){
+                answer += Integer.parseInt(ss[i+1]);
+            }else if(ss[i].equals("-")) {
+                answer -= Integer.parseInt(ss[i+1]);
             }
-            else
-                answer += Integer.parseInt(ps);
         }
 
         return answer;
     }
 
+    public static String[] solution(String[] quiz) {
+        List<String> answer = new ArrayList<>();
+
+        for(String q : quiz){
+            String[] ss = q.split(" ");
+            int sum = Integer.parseInt(ss[0]);
+            for(int i = 0; i < ss.length; i++){
+                if(ss[i].equals("+")){
+                    sum += Integer.parseInt(ss[i+1]);
+                }else if(ss[i].equals("-")) {
+                    sum -= Integer.parseInt(ss[i+1]);
+                }
+                else if(ss[i].equals("=")){
+                    if(sum == Integer.parseInt(ss[i + 1]))
+                        answer.add("O");
+                    else
+                        answer.add("X");
+                }
+            }
+        }
+
+        return answer.toArray(new String[0]);
+    }
+
+    public static int solution22(int[] numbers) {
+        Arrays.sort(numbers);
+        return Math.max(numbers[0] * numbers[1], numbers[numbers.length-1] *numbers[numbers.length-2]);
+    }
+
     public static void main(String[] args) {
+        String my_string = "Python";
+        char[] arr = my_string.toLowerCase().toCharArray();
+        Arrays.sort(arr);
+        String aa = String.valueOf(arr);
+
+        System.out.println(solution22(new int[]{1, 2, -3, 4, -5}));
+
         System.out.println(solution3("-3 + 4 - 10 + 20 - -12"));
         //System.out.println(solution(new int[]{3,1,2,4}));
         //System.out.println(solution(new int[]{2,2,2,2}));
