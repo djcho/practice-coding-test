@@ -88,11 +88,51 @@ public class Main {
         return answer;
     }
 
+    public static String solution120863(String polynomial) {
+        StringBuilder sb = new StringBuilder();
+        boolean numberFlag = false;
+        int xCount = 0;
+        String[] ss = polynomial.replace(" ", "").split("[+]");
+        for(String s : ss){
+            if(s.contains("x")){
+                if(s.length() == 1){
+                    xCount++;
+                }else{
+                    xCount += Integer.parseInt(s.replace("x", ""));
+                }
+            }else{
+                if(numberFlag){
+                    sb.append(" + ");
+                }
+                sb.append(s);
+                numberFlag = true;
+            }
+        }
+
+        String answer;
+        if(xCount == 0){
+            answer = sb.toString();
+        }else {
+            if(xCount == 1){
+                answer = "x";
+            }else{
+                answer = xCount + "x";
+            }
+            if(sb.length() != 0){
+                answer += " + " + sb;
+            }
+        }
+
+        return answer;
+    }
+
     public static void main(String[] args) {
-        System.out.println(Arrays.deepToString(solution(3, new int[][]{{1, 2}})));
-        System.out.println(Arrays.deepToString(solution(3, new int[][]{{1, 2}, {3, 3}})));
+//        System.out.println(solution120863("3x + 7 + x"));
+        System.out.println(solution120863("21 + 2x + 7 + x + 100 + 223x"));
+        //System.out.println(Arrays.deepToString(solution(3, new int[][]{{1, 2}})));
+        //System.out.println(Arrays.deepToString(solution(3, new int[][]{{1, 2}, {3, 3}})));
         //System.out.println(solution(new int[]{5,27,9,0,31,123,435,34,123,5555,6210101,33,1}));
-        System.out.println(solution(new int[]{1,1,4,1231,2131,0, 1,1145435234}));
+        //System.out.println(solution(new int[]{1,1,4,1231,2131,0, 1,1145435234}));
         //System.out.println(solution(new int[]{1,2,4,8}));
         //System.out.println(solution(new int[]{1,2,4,8}));
     }
