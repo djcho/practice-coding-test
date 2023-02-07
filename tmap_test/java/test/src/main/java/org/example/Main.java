@@ -2,9 +2,7 @@ package org.example;
 
 import org.w3c.dom.Node;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Main {
 
@@ -126,9 +124,64 @@ public class Main {
         return answer;
     }
 
+    public static int solution100(int[][] office, int k){
+        if(office.length < k)
+            k = office.length;
+
+        int maxCount = 0;
+        for(int i = 0; i <= office.length-k; i++){
+            for(int j = 0; j <= office[i].length-k; j++){
+
+                int count = 0;
+                for(int w = 0; w < k; w++){
+                    for(int h = 0; h < k; h++){
+                        if(office[i+w][j+h] == 1){
+                            count++;
+                        }
+                    }
+                }
+
+                if(maxCount < count)
+                    maxCount = count;
+            }
+        }
+        return maxCount;
+    }
+
+    public static int solution101(int n){
+        List<Double> sumList = new ArrayList<>();
+        double sum = 1;
+        sumList.add(sum);
+
+        for(int i = 1; i < n; i++){
+            double pow = Math.pow(3, i);
+            sumList.add(pow);
+            sum += pow;
+            sumList.add(sum);
+        }
+
+
+        return 0;
+    }
+
     public static void main(String[] args) {
+
+        System.out.println(solution101(4));
+        /*
+        System.out.println(solution100(new int[][]{{1,0,0,0}, {0,0,0,1}, {0,0,1,0},{0,1,1,0}}, 1));
+        System.out.println(solution100(new int[][]{{1,0,0,0}, {0,0,0,1}, {0,0,1,0},{0,1,1,0}}, 2));
+        System.out.println(solution100(new int[][]{{1,0,0,0}, {0,0,0,1}, {0,0,1,0},{0,1,1,0}}, 3));
+        System.out.println(solution100(new int[][]{{1,0,0,0}, {0,0,0,1}, {0,0,1,0},{0,1,1,0}}, 4));
+        System.out.println(solution100(new int[][]{{1,0,0,0}, {0,0,0,1}, {0,0,1,0},{0,1,1,0}}, 5));
+        System.out.println(solution100(new int[][]{{1,0,0,0}, {0,0,0,1}, {0,0,1,0},{0,1,1,0}}, 20));
+        System.out.println(solution100(new int[][]{{1,0,0}, {0,0,1}, {1,0,0}}, 2));
+        */
+
+
+
 //        System.out.println(solution120863("3x + 7 + x"));
-        System.out.println(solution120863("21 + 2x + 7 + x + 100 + 223x"));
+        //System.out.println(solution120863("21 + 2x + 7 + x + 100 + 223x"));
+
         //System.out.println(Arrays.deepToString(solution(3, new int[][]{{1, 2}})));
         //System.out.println(Arrays.deepToString(solution(3, new int[][]{{1, 2}, {3, 3}})));
         //System.out.println(solution(new int[]{5,27,9,0,31,123,435,34,123,5555,6210101,33,1}));
