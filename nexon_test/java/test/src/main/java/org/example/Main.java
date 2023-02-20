@@ -84,7 +84,6 @@ public class Main {
         int maxCount = 0;
         for(int i = 0; i <= office.length-k; i++){
             for(int j = 0; j <= office[i].length-k; j++){
-
                 int count = 0;
                 for(int w = 0; w < k; w++){
                     for(int h = 0; h < k; h++){
