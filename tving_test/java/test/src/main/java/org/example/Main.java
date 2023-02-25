@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Stack;
+
 public class Main {
 
     public static int solution2(int[][] office, int k){
@@ -102,9 +104,26 @@ public class Main {
         return answer;
     }
 
-    public static void main(String[] args) {
 
-        System.out.println(solution(new String[]{"aya", "yee", "u", "maa", "wyeoo"}));
+    public static int solution(String s)
+    {
+        Stack<Character> stack = new Stack<>();
+        for(char ch : s.toCharArray()){
+            if(stack.isEmpty())
+                stack.push(ch);
+            else if(stack.peek() == ch){
+                stack.pop();
+            }
+            else
+                stack.push(ch);
+        }
+
+        return stack.isEmpty() ? 1 : 0;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(solution("adda"));
+        System.out.println(solution("cdcd"));
 
         //System.out.println(solution(5));
         //for(long i = 1; i < 1000000000; i++) {
